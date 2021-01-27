@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Services;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace Services.Tests
@@ -11,9 +12,15 @@ namespace Services.Tests
         {
             throw new NotImplementedException();
         }
-        
+
         [TestMethod()]
         public void DoSomeOtherWorkTest()
+        {
+            throw new NotImplementedException();
+        }
+
+        [TestMethod()]
+        public void GetTruthsTest()
         {
             throw new NotImplementedException();
         }
