@@ -10,6 +10,7 @@ namespace BusinessLogicTests
         [TestMethod]
         public void TestMethod1()
         {
+            //test comment
             throw new NotImplementedException("adfads");
         }
     }
