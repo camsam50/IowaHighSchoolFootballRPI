@@ -1,4 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+
 
 namespace BusinessLogicTests
 {
@@ -8,6 +10,7 @@ namespace BusinessLogicTests
         [TestMethod]
         public void TestMethod1()
         {
+            throw new NotImplementedException("adfads");
         }
     }
 }
