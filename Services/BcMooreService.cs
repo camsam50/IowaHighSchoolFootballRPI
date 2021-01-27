@@ -9,6 +9,11 @@ namespace Services
     public interface IBcMooreService
     {
         Task<IEnumerable<bool>> GetTruths();
+
+        //TODO: get teams
+        //TODO: get scores
+
+
     }
 
 
