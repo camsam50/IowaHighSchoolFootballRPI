@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModels", "DataModels\DataModels.csproj", "{BEFC6122-5375-45FB-A2E2-9C94C9DE93F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogicTests", "BusinessLogicTests\BusinessLogicTests.csproj", "{C8A93D8E-1F1E-4507-9671-B351D1A6DDD8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,17 @@ Global
 		{BEFC6122-5375-45FB-A2E2-9C94C9DE93F2}.Release|x64.Build.0 = Release|Any CPU
 		{BEFC6122-5375-45FB-A2E2-9C94C9DE93F2}.Release|x86.ActiveCfg = Release|Any CPU
 		{BEFC6122-5375-45FB-A2E2-9C94C9DE93F2}.Release|x86.Build.0 = Release|Any CPU
+		{C8A93D8E-1F1E-4507-9671-B351D1A6DDD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8A93D8E-1F1E-4507-9671-B351D1A6DDD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8A93D8E-1F1E-4507-9671-B351D1A6DDD8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C8A93D8E-1F1E-4507-9671-B351D1A6DDD8}.Debug|x64.Build.0 = Debug|Any CPU
+		{C8A93D8E-1F1E-4507-9671-B351D1A6DDD8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C8A93D8E-1F1E-4507-9671-B351D1A6DDD8}.Debug|x86.Build.0 = Debug|Any CPU
+		{C8A93D8E-1F1E-4507-9671-B351D1A6DDD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8A93D8E-1F1E-4507-9671-B351D1A6DDD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8A93D8E-1F1E-4507-9671-B351D1A6DDD8}.Release|x64.ActiveCfg = Release|Any CPU
+		{C8A93D8E-1F1E-4507-9671-B351D1A6DDD8}.Release|x64.Build.0 = Release|Any CPU
+		{C8A93D8E-1F1E-4507-9671-B351D1A6DDD8}.Release|x86.ActiveCfg = Release|Any CPU
+		{C8A93D8E-1F1E-4507-9671-B351D1A6DDD8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
