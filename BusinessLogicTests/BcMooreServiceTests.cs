@@ -7,6 +7,15 @@ namespace Services.Tests
     [TestClass()]
     public class BcMooreServiceTests
     {
+
+        [TestMethod()]
+        [DataRow(1, 2, DisplayName = "Sequential numbers")]
+        [DataRow(2, 2, DisplayName = "Equal numbers")]
+        public void TestSomeNumbers(int x, int y)
+        {
+            Assert.AreEqual(x, y);
+        }
+
         [TestMethod()]
         public void DoWorkTest()
         {
