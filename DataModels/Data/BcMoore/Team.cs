@@ -1,7 +1,14 @@
-namespace DataModels
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Models.Data.BcMoore
 {
     public class Team
     {
+
         //EXAMPLE
         //Long name         Short name      Class   District
         //Ackley AGWSR      Ackley AGWSR	8	    2
@@ -13,6 +20,8 @@ namespace DataModels
         public byte District { get; set; }
 
     }
+
+
 
 
 
@@ -181,8 +190,6 @@ namespace DataModels
 
 
     //}
-
-
 
 
 

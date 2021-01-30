@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 
-namespace DataModels
+namespace Models.Data.BcMoore
 {
     public class Score
     {
@@ -16,6 +16,5 @@ namespace DataModels
         public string HomeTeam { get; set; } //uses team's long name
         public byte HomeScore { get; set; }
         public byte Overtimes { get; set; }
-
     }
 }
