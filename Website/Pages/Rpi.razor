@@ -1,0 +1,102 @@
+﻿@page "/rpi"
+
+@using Website.Data
+@inject BcMooreService RpiService
+
+<style type="text/css">
+    .table > thead > tr > th:hover {
+        cursor: pointer;
+        color: #286090;
+        background-color: #f7f7f7;
+    }
+</style>
+
+<h1>Teams and RPI</h1>
+
+<p>This component fetches data from the BC Moore service.</p>
+
+@if (isLoading)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th @onclick="@(() => SortTable("LongName"))">Name <span>@(SetSortIcon("LongName"))</span></th>
+                <th @onclick="@(() => SortTable("Conference"))">Conference <span>@(SetSortIcon("Conference"))</span></th>
+                <th @onclick="@(() => SortTable("Wins"))"># Wins <span>@(SetSortIcon("Wins"))</span></th>
+                <th @onclick="@(() => SortTable("Losses"))"># Losses <span>@(SetSortIcon("Losses"))</span></th>
+                <th @onclick="@(() => SortTable("WinningPercentage"))">Win % <span>@(SetSortIcon("WinningPercentage"))</span></th>
+                <th @onclick="@(() => SortTable("Rpi"))">RPI <span>@(SetSortIcon("Rpi"))</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var team in teams)
+            {
+            <tr>
+                <td>@team.LongName</td>
+                <td>@team.Conference</td>
+                <td>@team.Wins</td>
+                <td>@team.Losses</td>
+                <td>@team.WinningPercentage.ToString("P2")</td>
+                <td>@team.GetRatingsPercentageIndex().ToString("P2")</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private bool isSortedAscending = true;
+    private string activeSortColumn = "LongName";
+    private IEnumerable<Team> teams;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        teams = await RpiService.LoadTeams(2020);
+        isLoading = false;
+    }
+
+    protected void SortTable(string columnName)
+    {
+        isLoading = true;
+        isSortedAscending = columnName == activeSortColumn && isSortedAscending ? false : true;
+        activeSortColumn = columnName;
+        if(isSortedAscending)
+        {
+            teams = columnName switch
+            {
+                "Conference" => teams.OrderBy(f => f.Conference),
+                "Wins" => teams.OrderBy(f => f.Wins),
+                "Losses" => teams.OrderBy(f => f.Losses),
+                "WinningPercentage" => teams.OrderBy(f => f.WinningPercentage),
+                "RPI" => teams.OrderBy(f => f.GetRatingsPercentageIndex()),
+                _ => teams.OrderBy(f => f.LongName)
+            };
+        }
+        else
+        {
+            teams = columnName switch
+            {
+                "Conference" => teams.OrderByDescending(f => f.Conference),
+                "Wins" => teams.OrderByDescending(f => f.Wins),
+                "Losses" => teams.OrderByDescending(f => f.Losses),
+                "WinningPercentage" => teams.OrderByDescending(f => f.WinningPercentage),
+                "RPI" => teams.OrderByDescending(f => f.GetRatingsPercentageIndex()),
+                _ => teams.OrderByDescending(f => f.LongName)
+            };
+        }
+        isLoading = false;
+    }
+
+    protected string SetSortIcon(string columnName)
+    {
+        return activeSortColumn != columnName ? string.Empty :
+            isSortedAscending ? "↓" :
+            "↑";
+    }
+}
