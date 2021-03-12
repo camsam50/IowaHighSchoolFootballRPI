@@ -25,6 +25,8 @@ else
         <thead>
             <tr>
                 <th @onclick="@(() => SortTable("LongName"))">Name <span>@(SetSortIcon("LongName"))</span></th>
+                <th @onclick="@(() => SortTable("Class"))">Class <span>@(SetSortIcon("Class"))</span></th>
+                <th @onclick="@(() => SortTable("District"))">District <span>@(SetSortIcon("District"))</span></th>
                 <th @onclick="@(() => SortTable("Conference"))">Conference <span>@(SetSortIcon("Conference"))</span></th>
                 <th @onclick="@(() => SortTable("Wins"))"># Wins <span>@(SetSortIcon("Wins"))</span></th>
                 <th @onclick="@(() => SortTable("Losses"))"># Losses <span>@(SetSortIcon("Losses"))</span></th>
@@ -37,11 +39,13 @@ else
             {
             <tr>
                 <td>@team.LongName</td>
+                <td>@team.Class</td>
+                <td>@team.District</td>
                 <td>@team.Conference</td>
                 <td>@team.Wins</td>
                 <td>@team.Losses</td>
                 <td>@team.WinningPercentage.ToString("P2")</td>
-                <td>@team.GetRatingsPercentageIndex().ToString("P2")</td>
+                <td>@team.GetRatingsPercentageIndex().ToString()</td>
             </tr>
             }
         </tbody>
@@ -70,24 +74,28 @@ else
         {
             teams = columnName switch
             {
+                "Class" => teams.OrderBy(f => f.Class).ThenByDescending(f => f.GetRatingsPercentageIndex()),
+                "District" => teams.OrderBy(f => f.District),
                 "Conference" => teams.OrderBy(f => f.Conference),
                 "Wins" => teams.OrderBy(f => f.Wins),
                 "Losses" => teams.OrderBy(f => f.Losses),
                 "WinningPercentage" => teams.OrderBy(f => f.WinningPercentage),
-                "RPI" => teams.OrderBy(f => f.GetRatingsPercentageIndex()),
-                _ => teams.OrderBy(f => f.LongName)
+                "Rpi" => teams.OrderBy(f => f.GetRatingsPercentageIndex())
+                //, => teams.OrderBy(f => f.LongName)
             };
         }
         else
         {
             teams = columnName switch
             {
+                "Class" => teams.OrderByDescending(f => f.Class),
+                "District" => teams.OrderByDescending(f => f.District),
                 "Conference" => teams.OrderByDescending(f => f.Conference),
                 "Wins" => teams.OrderByDescending(f => f.Wins),
                 "Losses" => teams.OrderByDescending(f => f.Losses),
                 "WinningPercentage" => teams.OrderByDescending(f => f.WinningPercentage),
-                "RPI" => teams.OrderByDescending(f => f.GetRatingsPercentageIndex()),
-                _ => teams.OrderByDescending(f => f.LongName)
+                "Rpi" => teams.OrderByDescending(f => f.GetRatingsPercentageIndex())
+                //, => teams.OrderByDescending(f => f.LongName)
             };
         }
         isLoading = false;
