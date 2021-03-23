@@ -80,8 +80,8 @@ else
                 "Wins" => teams.OrderBy(f => f.Wins),
                 "Losses" => teams.OrderBy(f => f.Losses),
                 "WinningPercentage" => teams.OrderBy(f => f.WinningPercentage),
-                "Rpi" => teams.OrderBy(f => f.GetRatingsPercentageIndex())
-                //, => teams.OrderBy(f => f.LongName)
+                "Rpi" => teams.OrderBy(f => f.GetRatingsPercentageIndex()),
+                _ => teams
             };
         }
         else
@@ -94,9 +94,10 @@ else
                 "Wins" => teams.OrderByDescending(f => f.Wins),
                 "Losses" => teams.OrderByDescending(f => f.Losses),
                 "WinningPercentage" => teams.OrderByDescending(f => f.WinningPercentage),
-                "Rpi" => teams.OrderByDescending(f => f.GetRatingsPercentageIndex())
-                //, => teams.OrderByDescending(f => f.LongName)
+                "Rpi" => teams.OrderByDescending(f => f.GetRatingsPercentageIndex()),
+                _ => teams
             };
+
         }
         isLoading = false;
     }
