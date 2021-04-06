@@ -18,3 +18,7 @@ namespace Models.Data.BcMoore
         public byte Overtimes { get; set; }
     }
 }
+
+
+//schedule
+//Date	Visitor 	Home (West Des Moines Dowling) [long name]	Location (1 is at home, 0 is neutral)
