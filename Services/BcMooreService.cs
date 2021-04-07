@@ -61,6 +61,38 @@ namespace Services
             return teams;
         }
 
+        public async Task<IEnumerable<Schedule>> GetSchedules()
+        {
+            HttpClient _httpClient = new HttpClient
+            {
+                BaseAddress = new Uri($"http://ia.bcmoorerankings.com/fb/{CURRENT_YEAR}/latest/")
+            };
+
+            string line;
+            string[] parts;
+            List<Schedule> schedules = new();
+
+
+            using Stream response = await _httpClient.GetStreamAsync("schedule.csv");
+
+            using var readFile = new StreamReader(response);
+
+
+            while ((line = await readFile.ReadLineAsync()) != null)
+            {
+                parts = line.Split(',');
+
+                var s = ProcessSchedule(parts);
+                if (s is not null)
+                {
+                    schedules.Add(s);
+                }
+
+            }
+
+            return schedules;
+        }
+
         public async Task<IEnumerable<Score>> GetScores()
         {
             HttpClient _httpClient = new HttpClient
@@ -108,6 +140,24 @@ namespace Services
                 District = byte.Parse(parts[3])
             };
         }
+
+
+        private static Schedule ProcessSchedule(string[] parts)
+        {
+            if (parts == null) { return null; }
+            if (parts.Length != 4) { return null; }
+            if (parts[0] == "Date") { return null; }
+
+            return new Schedule()
+            {
+                Date = DateTime.Parse(parts[0]),
+                Visitor = parts[1],
+                Home = parts[2],
+                Location = byte.Parse(parts[3])
+            };
+
+        }
+
 
         private static Score ProcessScore(string[] parts)
         {
