@@ -1,4 +1,6 @@
-﻿namespace Models.Data.BcMoore
+﻿using Newtonsoft.Json;
+
+namespace Models.Data.BcMoore
 {
     public class Team
     {
@@ -8,6 +10,9 @@
         //Ackley AGWSR      Ackley AGWSR	8	    2
         //Adel ADM          Adel ADM	    3A	    8
 
+
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get { return LongName; } }
         public string LongName { get; set; }
         public string ShortName { get; set; }
         public string Class { get; set; }

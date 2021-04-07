@@ -59,5 +59,22 @@ namespace Services.Tests
             //ASSSERT
             Assert.IsTrue(scores.Any()); //Was able to retrieve scores
         }
+
+
+
+        [TestMethod()]
+        public async Task TempTest()
+        {
+            //ARRANGE
+            var x = new BcMooreService();
+
+            //ACT
+            await x.TempMethod();
+
+            //ASSSERT
+            Assert.IsTrue(true); //Was able to retrieve scores
+        }
+
+
     }
 }

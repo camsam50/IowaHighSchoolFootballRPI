@@ -1,4 +1,5 @@
-﻿using Models.Data.BcMoore;
+﻿using DataAccess.CosmosDB;
+using Models.Data.BcMoore;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +24,17 @@ namespace Services
 
         private const string CURRENT_YEAR = "2020";
         
+
+
+        public async Task TempMethod()
+        {
+
+            await CosmosPOC.Testing();
+
+            
+
+        }
+
 
         public async Task<IEnumerable<Team>> GetTeams()
         {
