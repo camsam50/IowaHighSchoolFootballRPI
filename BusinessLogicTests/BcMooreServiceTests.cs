@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Services.Tests
 {
@@ -19,7 +20,7 @@ namespace Services.Tests
         //}
 
         [TestMethod()]
-        public async System.Threading.Tasks.Task GetTeamsTestAsync()
+        public async Task GetTeamsTestAsync()
         {
             //ARRANGE
             var x = new BcMooreService();
@@ -34,7 +35,21 @@ namespace Services.Tests
         }
 
         [TestMethod()]
-        public async System.Threading.Tasks.Task GetScoresTestAsync()
+        public async Task GetSchedulesTestAsync()
+        {
+
+            //ARRANGE
+            var x = new BcMooreService();
+
+            //ACT
+            var schedules = await x.GetSchedules();
+
+            //ASSSERT
+            Assert.IsTrue(schedules.Any()); //Was able to retrieve scores
+        }
+
+        [TestMethod()]
+        public async Task GetScoresTestAsync()
         {
 
             //ARRANGE

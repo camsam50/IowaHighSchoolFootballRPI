@@ -11,6 +11,7 @@ namespace Services
     public interface IBcMooreService
     {
         Task<IEnumerable<Team>> GetTeams();
+        Task<IEnumerable<Schedule>> GetSchedules();
         Task<IEnumerable<Score>> GetScores();
 
     }
@@ -21,48 +22,30 @@ namespace Services
     {
 
         private const string CURRENT_YEAR = "2020";
-        //private readonly HttpClient _httpClient;
-
-        //public BcMooreService(HttpClient client)
-        //{
-        //    _httpClient = client;
-        //    _httpClient.BaseAddress = new Uri("http://ia.bcmoorerankings.com/fb/2020/latest/");
-        //}
+        
 
         public async Task<IEnumerable<Team>> GetTeams()
         {
-            HttpClient _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri($"http://ia.bcmoorerankings.com/fb/{CURRENT_YEAR}/latest/")
-            };
+            return await GetData<Team>("team", ProcessTeam);
+        }
 
-            string line;
-            string[] parts;
-            List<Team> teams = new();
-
-
-            using Stream response = await _httpClient.GetStreamAsync("team.csv");
-
-            using var readFile = new StreamReader(response);
-
-
-            while ((line = await readFile.ReadLineAsync()) != null)
-            {
-                parts = line.Split(',');
-
-                var t = ProcessTeam(parts);
-                if (t is not null)
-                {
-                    teams.Add(t);
-                }
-
-            }
-
-            return teams;
+        public async Task<IEnumerable<Schedule>> GetSchedules()
+        {
+            return await GetData<Schedule>("schedule", ProcessSchedule);
         }
 
         public async Task<IEnumerable<Score>> GetScores()
         {
+            return await GetData<Score>("score", ProcessScore);
+
+        }
+
+
+        private static async Task<IEnumerable<T>> GetData<T>(string fileName, Func<string[], T> processor)
+        {
+
+
+            
             HttpClient _httpClient = new HttpClient
             {
                 BaseAddress = new Uri($"http://ia.bcmoorerankings.com/fb/{CURRENT_YEAR}/latest/")
@@ -70,10 +53,10 @@ namespace Services
 
             string line;
             string[] parts;
-            List<Score> scores = new();
+            List<T> returnValues = new();
 
 
-            using Stream response = await _httpClient.GetStreamAsync("score.csv");
+            using Stream response = await _httpClient.GetStreamAsync($"{fileName}.csv");
 
             using var readFile = new StreamReader(response);
 
@@ -82,15 +65,18 @@ namespace Services
             {
                 parts = line.Split(',');
 
-                var s = ProcessScore(parts);
+                var s = processor(parts);
                 if (s is not null)
                 {
-                    scores.Add(s);
+                    returnValues.Add(s);
                 }
 
             }
 
-            return scores;
+            return returnValues;
+
+
+
         }
 
 
@@ -108,6 +94,24 @@ namespace Services
                 District = byte.Parse(parts[3])
             };
         }
+
+
+        private static Schedule ProcessSchedule(string[] parts)
+        {
+            if (parts == null) { return null; }
+            if (parts.Length != 4) { return null; }
+            if (parts[0] == "Date") { return null; }
+
+            return new Schedule()
+            {
+                Date = DateTime.Parse(parts[0]),
+                Visitor = parts[1],
+                Home = parts[2],
+                Location = byte.Parse(parts[3])
+            };
+
+        }
+
 
         private static Score ProcessScore(string[] parts)
         {
