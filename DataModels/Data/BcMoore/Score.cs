@@ -11,9 +11,9 @@ namespace Models.Data.BcMoore
 
 
         public DateTime Date { get; set; }
-        public string VisitorTeam { get; set; } //uses team's long name
+        public string Visitor { get; set; } //uses team's long name
         public byte VisitorScore { get; set; }
-        public string HomeTeam { get; set; } //uses team's long name
+        public string Home { get; set; } //uses team's long name
         public byte HomeScore { get; set; }
         public byte Overtimes { get; set; }
     }

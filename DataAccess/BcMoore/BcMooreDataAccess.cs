@@ -117,9 +117,9 @@ namespace DataAccess.BcMoore
             return new Score()
             {
                 Date = DateTime.Parse(parts[0]),
-                VisitorTeam = parts[1],
+                Visitor = parts[1],
                 VisitorScore = byte.Parse(parts[2]),
-                HomeTeam = parts[3],
+                Home = parts[3],
                 HomeScore = byte.Parse(parts[4]),
                 Overtimes = byte.Parse(parts[5])
             };
