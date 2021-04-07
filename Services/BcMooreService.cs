@@ -11,6 +11,7 @@ namespace Services
     public interface IBcMooreService
     {
         Task<IEnumerable<Team>> GetTeams();
+        Task<IEnumerable<Schedule>> GetSchedules();
         Task<IEnumerable<Score>> GetScores();
 
     }
