@@ -154,7 +154,7 @@ namespace RPI
 
         static async Task GetBcMooreData()
         {
-            var classes = new List<string>() { "4A", "3A", "2A", "1A", "A", "8" };
+            var classes = new List<string>() { "4A", "3A", "2A", "1A", "A", "8" }; //"3A-A"
             HttpClient client = new HttpClient();
             using (client)
             {

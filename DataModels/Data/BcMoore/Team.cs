@@ -1,8 +1,6 @@
-﻿using Newtonsoft.Json;
-
-namespace Models.Data.BcMoore
+﻿namespace Models.Data.BcMoore
 {
-    public class Team
+    public record Team
     {
 
         //EXAMPLE
@@ -11,13 +9,12 @@ namespace Models.Data.BcMoore
         //Adel ADM          Adel ADM	    3A	    8
 
 
-        [JsonProperty(PropertyName = "id")]
-        public string Id { get { return LongName; } }
         public string LongName { get; set; }
         public string ShortName { get; set; }
         public string Class { get; set; }
         public byte District { get; set; }
 
+        
     }
 
     //public record TeamRecord

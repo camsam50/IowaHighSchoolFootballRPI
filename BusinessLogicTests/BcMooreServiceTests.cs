@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DataAccess.BcMoore;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace Services.Tests
         public async Task GetTeamsTestAsync()
         {
             //ARRANGE
-            var x = new BcMooreService();
+            var x = new BcMooreService(new BcMooreDataAccess()); //TODO: Implement better - test only one layer
             
             //ACT
             var teams = await x.GetTeams();
@@ -37,7 +38,7 @@ namespace Services.Tests
         {
 
             //ARRANGE
-            var x = new BcMooreService();
+            var x = new BcMooreService(new BcMooreDataAccess()); //TODO: Implement better - test only one layer
 
             //ACT
             var schedules = await x.GetSchedules();
@@ -51,7 +52,7 @@ namespace Services.Tests
         {
 
             //ARRANGE
-            var x = new BcMooreService();
+            var x = new BcMooreService(new BcMooreDataAccess()); //TODO: Implement better - test only one layer
 
             //ACT
             var scores = await x.GetScores();
@@ -66,10 +67,13 @@ namespace Services.Tests
         public async Task TempTest()
         {
             //ARRANGE
-            var x = new BcMooreService();
+            var x = new BcMooreService(new BcMooreDataAccess()); //TODO: Implement better - test only one layer
 
-            //ACT
-            await x.TempMethod();
+
+            ////ACT
+            //await x.AnotherTempMethod();
+
+            //System.Threading.Thread.Sleep(20000);
 
             //ASSSERT
             Assert.IsTrue(true); //Was able to retrieve scores

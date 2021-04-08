@@ -1,5 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos;
-using Models.Data.BcMoore;
+using Models.Data.Cosmos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +39,7 @@ namespace DataAccess.CosmosDB
 
             var client = new CosmosClient(EndpointUri, PrimaryKey);
             var database = client.GetDatabase(databaseId);
-            var container = database.GetContainer(containerId);
+            var container = database.GetContainer(containerId); //TODO: delete and recreate container to mimic "truncate"
 
             var t = new Team()
             {

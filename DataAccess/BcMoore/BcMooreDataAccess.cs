@@ -1,77 +1,150 @@
 ﻿using Models.Data.BcMoore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace DataAccess.BcMoore
 {
-    
+
     public interface IBcMooreDataAccess
     {
         Task<IEnumerable<Team>> GetTeams();
+        Task<IEnumerable<Ranking>> GetRankings();
+        Task<IEnumerable<Schedule>> GetSchedules();
         Task<IEnumerable<Score>> GetScores();
     }
 
     public class BcMooreDataAccess : IBcMooreDataAccess
     {
         private const string CURRENT_YEAR = "2020";
-        //private readonly HttpClient _httpClient;
 
-        //public BcMooreService(HttpClient client)
-        //{
-        //    _httpClient = client;
-        //    _httpClient.BaseAddress = new Uri("http://ia.bcmoorerankings.com/fb/2020/latest/");
-        //}
 
-        public async Task<IEnumerable<Team>> GetTeams()
+        public async Task<IEnumerable<Ranking>> GetRankings()
         {
-            HttpClient _httpClient = new HttpClient
+            List<Ranking> rankings = new();
+            var classes = new List<string>() { "4A", "3A-A", "8" };
+
+            using HttpClient client = GetHttpClient();
+            
+            foreach (var c in classes)
             {
-                BaseAddress = new Uri($"http://ia.bcmoorerankings.com/fb/{CURRENT_YEAR}/latest/")
-            };
 
-            string line;
-            string[] parts;
-            List<Team> teams = new();
+                string responseBody = await client.GetStringAsync($"{c}Rank.html");
 
+                string data = getBetween(responseBody, "<pre>", "</pre>");
+                var classRankings = ProcessHTML(data);
 
-            using Stream response = await _httpClient.GetStreamAsync("team.csv");
+                rankings.AddRange(classRankings);
 
-            using var readFile = new StreamReader(response);
-
-
-            while ((line = await readFile.ReadLineAsync()) != null)
-            {
-                parts = line.Split(',');
-
-                var t = ProcessTeam(parts);
-                if (t is not null)
-                {
-                    teams.Add(t);
-                }
 
             }
 
-            return teams;
+            return rankings;
+        }
+
+        public async Task<IEnumerable<Team>> GetTeams()
+        {
+            return await GetData<Team>("team", ProcessTeam);
+        }
+
+        public async Task<IEnumerable<Schedule>> GetSchedules()
+        {
+            return await GetData<Schedule>("schedule", ProcessSchedule);
         }
 
         public async Task<IEnumerable<Score>> GetScores()
         {
-            HttpClient _httpClient = new HttpClient
+            return await GetData<Score>("score", ProcessScore);
+
+        }
+
+
+
+
+        
+        private static string getBetween(string strSource, string strStart, string strEnd)
+        {
+            int Start, End;
+            if (strSource.Contains(strStart) && strSource.Contains(strEnd))
             {
-                BaseAddress = new Uri($"http://ia.bcmoorerankings.com/fb/{CURRENT_YEAR}/latest/")
+                Start = strSource.IndexOf(strStart, 0) + strStart.Length;
+                End = strSource.IndexOf(strEnd, Start);
+                return strSource.Substring(Start, End - Start);
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        private static IEnumerable<Ranking> ProcessHTML(string data)
+        {
+            List<Ranking> rankings = new();
+            string[] stringSeparators = new string[] { "\n" };
+            string[] lines = data.Split(stringSeparators, StringSplitOptions.None);
+            foreach (string s in lines)
+            {
+                if (s.Length > 90)
+                {
+                    Ranking r = GetRankingsData(s);
+                    rankings.Add(r);
+                }
+            }
+            return rankings;
+        }
+
+
+
+        private static Ranking GetRankingsData(string data)
+        {
+
+            var namePart = getBetween(data, "<a href=", "</a>");
+            
+            var longName = getBetween(namePart, "/", ".html");
+            
+            var i1 = namePart.IndexOf(">");
+            var shortName = namePart.Substring(i1 + 1);
+
+
+            var i2 = data.IndexOf("-");
+            var rankingPart = data.Substring(i2 + 11);
+
+            
+            decimal.TryParse(rankingPart.Substring(0, 6), out decimal currentRanking);//81
+            decimal.TryParse(rankingPart.Substring(11, 6), out decimal scheduleRanking);//92
+            decimal.TryParse(rankingPart.Substring(24, 6), out decimal offensiveRanking);//105
+            decimal.TryParse(rankingPart.Substring(37, 6), out decimal defensiveRanking);//118
+
+            return new Ranking
+            {
+                LongName = longName,
+                ShortName = shortName,
+                Rank = currentRanking,
+                ScheduleAverage = scheduleRanking,
+                OffensiveAverage = offensiveRanking,
+                DefensiveAverage = defensiveRanking
             };
+        }
+
+
+
+
+
+        private static async Task<IEnumerable<T>> GetData<T>(string fileName, Func<string[], T> processor)
+        {
+
+
+            //TODO: get from factory
+            using HttpClient httpClient = GetHttpClient();
 
             string line;
             string[] parts;
-            List<Score> scores = new();
+            List<T> returnValues = new();
 
 
-            using Stream response = await _httpClient.GetStreamAsync("score.csv");
+            using Stream response = await httpClient.GetStreamAsync($"{fileName}.csv");
 
             using var readFile = new StreamReader(response);
 
@@ -80,17 +153,27 @@ namespace DataAccess.BcMoore
             {
                 parts = line.Split(',');
 
-                var s = ProcessScore(parts);
+                var s = processor(parts);
                 if (s is not null)
                 {
-                    scores.Add(s);
+                    returnValues.Add(s);
                 }
 
             }
 
-            return scores;
+            return returnValues;
+
+
+
         }
 
+        private static HttpClient GetHttpClient()
+        {
+            return new HttpClient
+            {
+                BaseAddress = new Uri($"http://ia.bcmoorerankings.com/fb/{CURRENT_YEAR}/latest/")
+            };
+        }
 
         private static Team ProcessTeam(string[] parts)
         {
@@ -106,6 +189,24 @@ namespace DataAccess.BcMoore
                 District = byte.Parse(parts[3])
             };
         }
+
+
+        private static Schedule ProcessSchedule(string[] parts)
+        {
+            if (parts == null) { return null; }
+            if (parts.Length != 4) { return null; }
+            if (parts[0] == "Date") { return null; }
+
+            return new Schedule()
+            {
+                Date = DateTime.Parse(parts[0]),
+                Visitor = parts[1],
+                Home = parts[2],
+                Location = byte.Parse(parts[3])
+            };
+
+        }
+
 
         private static Score ProcessScore(string[] parts)
         {
@@ -125,5 +226,6 @@ namespace DataAccess.BcMoore
             };
         }
 
+        
     }
 }
