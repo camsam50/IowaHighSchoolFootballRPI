@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Services;
 
 
-public interface IBcMooreService
+public interface ISourceDataService
 {
     Task<IEnumerable<Team>> GetTeams();
     //Task<IEnumerable<Schedule>> GetSchedules();
@@ -20,7 +20,7 @@ public interface IBcMooreService
 
 
 
-public class BcMooreService : IBcMooreService
+public class BcMooreService : ISourceDataService
 {
 
     private readonly ISourceDataAccess _dataAccess;

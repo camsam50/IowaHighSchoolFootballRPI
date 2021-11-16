@@ -8,12 +8,9 @@ public record class Team
     //Ackley AGWSR      Ackley AGWSR	8	    2
     //Adel ADM          Adel ADM	    3A	    8
 
-
     public string LongName { get; set; }
     public string ShortName { get; set; }
-    public string Class { get; set; }
+    public string Classification { get; set; }
     public byte District { get; set; }
-
-        
 }
 

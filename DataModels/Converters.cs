@@ -20,7 +20,7 @@ namespace Models
             {
                 LongName = team.LongName,
                 ShortName = team.ShortName,
-                Class = team.Class,
+                Class = team.Classification,
                 District = team.District,
                 Rank = ranking.Rank,
                 ScheduleAverage = ranking.ScheduleAverage,
@@ -39,7 +39,7 @@ namespace Models
             {
                 LongName = team.LongName,
                 ShortName = team.ShortName,
-                Class = team.Class,
+                Class = team.Classification,
                 District = team.District
             };
         }

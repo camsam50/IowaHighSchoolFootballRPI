@@ -18,7 +18,7 @@ public interface ISourceDataAccess
 public class BcMooreDataAccess : ISourceDataAccess
 {
     private const string CURRENT_YEAR = "2021";
-
+    private static Uri uri = new($"http://ia.bcmoorerankings.com/fb/{CURRENT_YEAR}/latest/");
 
     public async Task<IEnumerable<Team>> GetTeams()
     {
@@ -42,7 +42,8 @@ public class BcMooreDataAccess : ISourceDataAccess
     //    List<Ranking> rankings = new();
     //    var classes = new List<string>() { "5A", "4A", "3A", "2A", "1A", "A", "8" };
 
-    //    using HttpClient client = GetHttpClient();
+    //    TODO: get from factory
+    //    using HttpClient client = new() { BaseAddress = uri };
 
     //    foreach (var c in classes)
     //    {
@@ -68,7 +69,7 @@ public class BcMooreDataAccess : ISourceDataAccess
 
 
         //TODO: get from factory
-        using HttpClient httpClient = GetHttpClient();
+        using HttpClient httpClient = new() { BaseAddress = uri };
 
         string line;
         string[] parts;
@@ -98,13 +99,13 @@ public class BcMooreDataAccess : ISourceDataAccess
 
     }
 
-    private static HttpClient GetHttpClient()
-    {
-        return new HttpClient
-        {
-            BaseAddress = new Uri($"http://ia.bcmoorerankings.com/fb/{CURRENT_YEAR}/latest/")
-        };
-    }
+    //private static HttpClient GetHttpClient()
+    //{
+    //    return new HttpClient
+    //    {
+    //        BaseAddress = uri
+    //    };
+    //}
 
 
 
@@ -190,7 +191,7 @@ public class BcMooreDataAccess : ISourceDataAccess
             {
                 LongName = parts[0],
                 ShortName = parts[1],
-                Class = parts[2],
+                Classification = parts[2],
                 District = byte.Parse(parts[3])
             };
         }

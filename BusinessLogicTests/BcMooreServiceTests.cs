@@ -18,20 +18,27 @@ public class BcMooreServiceTests
     //    Assert.AreEqual(x, y);
     //}
 
-    [TestMethod()]
-    public async Task GetTeamsTestAsync()
-    {
-        //ARRANGE
-        var x = new BcMooreService(new BcMooreDataAccess()); //TODO: Implement better - test only one layer
+    //[TestMethod()]
+    //public async Task GetTeamsTestAsync()
+    //{
+    //    //ARRANGE
+    //    var x = new BcMooreService(new BcMooreDataAccess()); //TODO: Implement better - test only one layer
             
-        //ACT
-        var teams = await x.GetTeams();
+    //    //ACT
+    //    var teams = await x.GetTeams();
 
-        //ASSSERT
-        Assert.IsTrue(teams.Any()); //Was able to retrieve teams
+    //    //ASSSERT
+    //    Assert.IsTrue(teams.Any()); //Was able to retrieve teams
             
 
-    }
+    //}
+
+
+
+
+
+
+
 
     //[TestMethod()]
     //public async Task GetSchedulesTestAsync()
@@ -94,4 +101,35 @@ public class BcMooreServiceTests
     //}
 
 
+}
+
+
+
+[TestClass()]
+public class BcMooreDataAccessTests
+{
+    //TODO: How much of this should be yearly dependant?
+    
+    [TestMethod()]
+    public async Task GetTeamsTest()
+    {
+        //ARRANGE
+        var x = new BcMooreDataAccess();
+
+        //ACT
+        var teams = await x.GetTeams();
+
+        //ASSSERT
+        Assert.IsTrue(teams.Any()); //Was able to retrieve teams
+        Assert.IsTrue(teams.Count() == 334); //Got the correct number of teams
+        Assert.IsTrue(teams.Any(t => t.ShortName == "WDM Dowling")); //Was able to get Dowling
+        Assert.IsTrue(teams.Any(t => t.ShortName == "East Marshall")); //Was able to get East Marshall
+        Assert.IsTrue(teams.Any(t => t.Classification == "5A")); //Was able to get 5A
+        Assert.IsTrue(teams.Any(t => t.Classification == "4A")); //Was able to get 4A
+        Assert.IsTrue(teams.Any(t => t.Classification == "3A")); //Was able to get 3A
+        Assert.IsTrue(teams.Any(t => t.Classification == "2A")); //Was able to get 2A
+        Assert.IsTrue(teams.Any(t => t.Classification == "1A")); //Was able to get 1A
+        Assert.IsTrue(teams.Any(t => t.Classification == "A")); //Was able to get A
+        Assert.IsTrue(teams.Any(t => t.Classification == "8")); //Was able to get 8
+    }
 }
