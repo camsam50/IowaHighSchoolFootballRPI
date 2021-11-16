@@ -61,6 +61,20 @@ namespace Services.Tests
             Assert.IsTrue(scores.Any()); //Was able to retrieve scores
         }
 
+        [TestMethod()]
+        public async Task GetRankingsTestAsync()
+        {
+
+            //ARRANGE
+            var x = new BcMooreService(new BcMooreDataAccess()); //TODO: Implement better - test only one layer
+
+            //ACT
+            var rankings = await x.GetRankings();
+
+            //ASSSERT
+            Assert.IsTrue(rankings.Any()); //Was able to retrieve scores
+        }
+
 
 
         [TestMethod()]

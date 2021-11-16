@@ -18,13 +18,13 @@ namespace DataAccess.BcMoore
 
     public class BcMooreDataAccess : IBcMooreDataAccess
     {
-        private const string CURRENT_YEAR = "2020";
+        private const string CURRENT_YEAR = "2021";
 
 
         public async Task<IEnumerable<Ranking>> GetRankings()
         {
             List<Ranking> rankings = new();
-            var classes = new List<string>() { "4A", "3A-A", "8" };
+            var classes = new List<string>() { "5A", "4A", "3A", "2A", "1A", "A", "8" };
 
             using HttpClient client = GetHttpClient();
 
