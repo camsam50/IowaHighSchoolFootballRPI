@@ -17,14 +17,14 @@ namespace DataAccess.CosmosDB
         // The primary key for the Azure Cosmos account.
         private static readonly string PrimaryKey = "MfeEWdkcBx1djaUY6J58eUxNgUonfVs2eMcH0vwn68tLfTnvfhRsfEvOUKQSah2EP5YEMGRP3d5v78iI4AWUjQ==";
 
-        // The Cosmos client instance
-        private CosmosClient cosmosClient;
+        //// The Cosmos client instance
+        //private CosmosClient cosmosClient;
 
-        // The database we will create
-        private Database database;
+        //// The database we will create
+        //private Database database;
 
-        // The container we will create.
-        private Container container;
+        //// The container we will create.
+        //private Container container;
 
         // The name of the database and container we will create
         private static string databaseId = "IowaHighSchoolFootballRPI";

@@ -100,7 +100,7 @@ namespace RPI
         {
 
             //_ = GetBcMooreData();
-            _ = PredictRPI();
+            PredictRPI();
 
 
 
@@ -109,7 +109,7 @@ namespace RPI
         }
 
 
-        static async Task PredictRPI()
+        static void PredictRPI()
         {
             var games = new List<Game>(); // GetGames().Result;
 
@@ -163,14 +163,14 @@ namespace RPI
                     Uri uri = new Uri("http://ia.bcmoorerankings.com/fb/2020/latest/" + division + "Rank.html");
                     string responseBody = await client.GetStringAsync(uri);
                     string data = getBetween(responseBody, "<pre>", "</pre>");
-                    await ProcessHTML(data);
+                    ProcessHTML(data);
                 }
             }
 
 
         }
 
-        static async Task ProcessHTML(string data)
+        static void ProcessHTML(string data)
         {
             string[] stringSeparators = new string[] { "\n" };
             string[] lines = data.Split(stringSeparators, StringSplitOptions.None);

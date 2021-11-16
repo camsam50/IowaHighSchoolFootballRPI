@@ -29,7 +29,6 @@ namespace Website.Data
             _httpClient.DefaultRequestHeaders.UserAgent.Clear();
             _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("JaysService");
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            ServicePointManager.FindServicePoint(baseUri).ConnectionLeaseTimeout = 60 * 1000;
         }
 
         #region public

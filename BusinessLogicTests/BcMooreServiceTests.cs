@@ -77,21 +77,21 @@ namespace Services.Tests
 
 
 
-        [TestMethod()]
-        public async Task TempTest()
-        {
-            //ARRANGE
-            var x = new BcMooreService(new BcMooreDataAccess()); //TODO: Implement better - test only one layer
+        //[TestMethod()]
+        //public async Task TempTest()
+        //{
+        //    //ARRANGE
+        //    var x = new BcMooreService(new BcMooreDataAccess()); //TODO: Implement better - test only one layer
 
 
-            ////ACT
-            //await x.AnotherTempMethod();
+        //    ////ACT
+        //    //await x.AnotherTempMethod();
 
-            //System.Threading.Thread.Sleep(20000);
+        //    //System.Threading.Thread.Sleep(20000);
 
-            //ASSSERT
-            Assert.IsTrue(true); //Was able to retrieve scores
-        }
+        //    //ASSSERT
+        //    Assert.IsTrue(true); //Was able to retrieve scores
+        //}
 
 
     }
