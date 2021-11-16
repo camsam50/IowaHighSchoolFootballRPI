@@ -11,6 +11,7 @@ namespace Services
         Task<IEnumerable<Team>> GetTeams();
         Task<IEnumerable<Schedule>> GetSchedules();
         Task<IEnumerable<Score>> GetScores();
+        Task<IEnumerable<Ranking>> GetRankings();
 
 
         //TODO: UpdateAll, UpdateTeams (get teams/rankings from bcmoore and save combine to cosmos), UpdateGame (get score/schedule from bcmoore and save to cosomos as game) 
