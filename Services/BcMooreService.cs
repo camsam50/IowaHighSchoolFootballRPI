@@ -1,8 +1,6 @@
-﻿using Models.Data.BcMoore;
-using System;
+﻿using DataAccess.BcMoore;
+using Models.Data.BcMoore;
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Services
@@ -14,6 +12,9 @@ namespace Services
         Task<IEnumerable<Schedule>> GetSchedules();
         Task<IEnumerable<Score>> GetScores();
 
+
+        //TODO: UpdateAll, UpdateTeams (get teams/rankings from bcmoore and save combine to cosmos), UpdateGame (get score/schedule from bcmoore and save to cosomos as game) 
+
     }
 
 
@@ -21,115 +22,36 @@ namespace Services
     public class BcMooreService : IBcMooreService
     {
 
-        private const string CURRENT_YEAR = "2020";
-        
+        private IBcMooreDataAccess _dataAccess;
 
+        public BcMooreService(IBcMooreDataAccess dataAccess)
+        {
+            _dataAccess = dataAccess;
+        }
+
+        
         public async Task<IEnumerable<Team>> GetTeams()
         {
-            return await GetData<Team>("team", ProcessTeam);
+            return await _dataAccess.GetTeams();
+        }
+
+        public async Task<IEnumerable<Ranking>> GetRankings()
+        {
+            return await _dataAccess.GetRankings();
         }
 
         public async Task<IEnumerable<Schedule>> GetSchedules()
         {
-            return await GetData<Schedule>("schedule", ProcessSchedule);
+            return await _dataAccess.GetSchedules();
         }
 
         public async Task<IEnumerable<Score>> GetScores()
         {
-            return await GetData<Score>("score", ProcessScore);
+            return await _dataAccess.GetScores();
 
         }
 
 
-        private static async Task<IEnumerable<T>> GetData<T>(string fileName, Func<string[], T> processor)
-        {
-
-
-            
-            HttpClient _httpClient = new HttpClient
-            {
-                BaseAddress = new Uri($"http://ia.bcmoorerankings.com/fb/{CURRENT_YEAR}/latest/")
-            };
-
-            string line;
-            string[] parts;
-            List<T> returnValues = new();
-
-
-            using Stream response = await _httpClient.GetStreamAsync($"{fileName}.csv");
-
-            using var readFile = new StreamReader(response);
-
-
-            while ((line = await readFile.ReadLineAsync()) != null)
-            {
-                parts = line.Split(',');
-
-                var s = processor(parts);
-                if (s is not null)
-                {
-                    returnValues.Add(s);
-                }
-
-            }
-
-            return returnValues;
-
-
-
-        }
-
-
-        private static Team ProcessTeam(string[] parts)
-        {
-            if (parts == null) { return null; }
-            if (parts.Length != 5) { return null; }
-            if (parts[0] == "Long name") { return null; }
-
-            return new Team()
-            {
-                LongName = parts[0],
-                ShortName = parts[1],
-                Class = parts[2],
-                District = byte.Parse(parts[3])
-            };
-        }
-
-
-        private static Schedule ProcessSchedule(string[] parts)
-        {
-            if (parts == null) { return null; }
-            if (parts.Length != 4) { return null; }
-            if (parts[0] == "Date") { return null; }
-
-            return new Schedule()
-            {
-                Date = DateTime.Parse(parts[0]),
-                Visitor = parts[1],
-                Home = parts[2],
-                Location = byte.Parse(parts[3])
-            };
-
-        }
-
-
-        private static Score ProcessScore(string[] parts)
-        {
-            if (parts == null) { return null; }
-            if (parts.Length != 6) { return null; }
-            if (parts[0] == "Date") { return null; }
-
-
-            return new Score()
-            {
-                Date = DateTime.Parse(parts[0]),
-                Visitor = parts[1],
-                VisitorScore = byte.Parse(parts[2]),
-                Home = parts[3],
-                HomeScore = byte.Parse(parts[4]),
-                Overtimes = byte.Parse(parts[5])
-            };
-        }
 
 
     }
