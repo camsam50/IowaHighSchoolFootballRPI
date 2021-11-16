@@ -22,9 +22,9 @@ namespace Services
     public class BcMooreService : IBcMooreService
     {
 
-        private IBcMooreDataAccess _dataAccess;
+        private readonly ISourceDataAccess _dataAccess;
 
-        public BcMooreService(IBcMooreDataAccess dataAccess)
+        public BcMooreService(ISourceDataAccess dataAccess)
         {
             _dataAccess = dataAccess;
         }

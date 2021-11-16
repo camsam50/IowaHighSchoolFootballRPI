@@ -9,13 +9,29 @@ namespace Models.Business
         public string ShortName { get; set; }  //this is the better name to show to user and how to link to bcmoore rankings
         public string Class { get; set; }
         public byte District { get; set; }
+       
+        
         public string Conference { get { return $"{Class}-{District}"; } }
         //public bool IsOutOfState { get { return Class == "ZZ"; } } ////OR HANDLE VIA A DIFFERENT CLASS???
 
-        public byte BcMooreRanking { get; set; }
+
+
+
+        public decimal BcMooreRanking { get; set; }
+        public decimal ScheduleAverage { get; set; }
+        public decimal OffensiveAverage { get; set; }
+        public decimal DefensiveAverage { get; set; }
+
+
 
 
         public IEnumerable<Game> Schedule { get; set;} = new List<Game>();
+
+
+
+        //TODO: how to handle out of state teams
+        //TODO: how to do schedule vs games played vs future games
+
 
 
     }

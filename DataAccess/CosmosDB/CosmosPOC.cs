@@ -27,8 +27,8 @@ namespace DataAccess.CosmosDB
         //private Container container;
 
         // The name of the database and container we will create
-        private static string databaseId = "IowaHighSchoolFootballRPI";
-        private static string containerId = "Teams";
+        private static readonly string databaseId = "IowaHighSchoolFootballRPI";
+        private static readonly string containerId = "Teams";
 
 
 
@@ -65,10 +65,10 @@ namespace DataAccess.CosmosDB
 
             Console.WriteLine("Running query: {0}\n", sqlQueryText);
 
-            QueryDefinition queryDefinition = new QueryDefinition(sqlQueryText);
+            QueryDefinition queryDefinition = new(sqlQueryText);
             FeedIterator<Team> queryResultSetIterator = container.GetItemQueryIterator<Team>(queryDefinition);
 
-            List<Team> teams = new List<Team>();
+            List<Team> teams = new();
 
             while (queryResultSetIterator.HasMoreResults)
             {

@@ -62,7 +62,7 @@ namespace Website.Data
 
         #region Teams
 
-        private async Task<List<Team>> GetTeams(int year)
+        private static async Task<List<Team>> GetTeams(int year)
         {
             string line;
             var teams = new List<Team>();
@@ -97,7 +97,7 @@ namespace Website.Data
 
         #region Scores
 
-        private async Task<List<Score>> GetScores(int year)
+        private static async Task<List<Score>> GetScores(int year)
         {
             string line;
             var scores = new List<Score>();
@@ -137,7 +137,7 @@ namespace Website.Data
 
     public class Team
     {
-        private List<TeamGame> _games = new List<TeamGame>();
+        private readonly List<TeamGame> _games = new();
         public string LongName { get; set; }
         public string ShortName { get; set; }
         public string Class { get; set; }

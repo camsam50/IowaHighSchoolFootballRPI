@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace DataAccess.BcMoore
 {
 
-    public interface IBcMooreDataAccess
+    public interface ISourceDataAccess
     {
         Task<IEnumerable<Team>> GetTeams();
         Task<IEnumerable<Ranking>> GetRankings();
@@ -16,7 +16,7 @@ namespace DataAccess.BcMoore
         Task<IEnumerable<Score>> GetScores();
     }
 
-    public class BcMooreDataAccess : IBcMooreDataAccess
+    public class BcMooreDataAccess : ISourceDataAccess
     {
         private const string CURRENT_YEAR = "2021";
 
@@ -33,7 +33,7 @@ namespace DataAccess.BcMoore
 
                 string responseBody = await client.GetStringAsync($"{c}Rank.html");
 
-                string data = getBetween(responseBody, "<pre>", "</pre>");
+                string data = GetBetween(responseBody, "<pre>", "</pre>");
                 var classRankings = ProcessHTML(data);
 
                 rankings.AddRange(classRankings);
@@ -64,7 +64,7 @@ namespace DataAccess.BcMoore
 
 
 
-        private static string getBetween(string strSource, string strStart, string strEnd)
+        private static string GetBetween(string strSource, string strStart, string strEnd)
         {
             int Start, End;
             if (strSource.Contains(strStart) && strSource.Contains(strEnd))
@@ -97,41 +97,7 @@ namespace DataAccess.BcMoore
 
 
 
-        private static Ranking GetRankingsData(string data)
-        {
-
-            var namePart = getBetween(data, "<a href=", "</a>");
-
-            var longName = getBetween(namePart, "/", ".html");
-
-            var i1 = namePart.IndexOf(">");
-            var shortName = namePart.Substring(i1 + 1);
-
-
-            var i2 = data.IndexOf("-");
-            var rankingPart = data.Substring(i2 + 11);
-
-
-            decimal.TryParse(rankingPart.Substring(0, 6), out decimal currentRanking);//81
-            decimal.TryParse(rankingPart.Substring(11, 6), out decimal scheduleRanking);//92
-            decimal.TryParse(rankingPart.Substring(24, 6), out decimal offensiveRanking);//105
-            decimal.TryParse(rankingPart.Substring(37, 6), out decimal defensiveRanking);//118
-
-            return new Ranking
-            {
-                LongName = longName,
-                ShortName = shortName,
-                Rank = currentRanking,
-                ScheduleAverage = scheduleRanking,
-                OffensiveAverage = offensiveRanking,
-                DefensiveAverage = defensiveRanking
-            };
-        }
-
-
-
-
-
+        
         private static async Task<IEnumerable<T>> GetData<T>(string fileName, Func<string[], T> processor)
         {
 
@@ -175,21 +141,54 @@ namespace DataAccess.BcMoore
             };
         }
 
-        private static Team ProcessTeam(string[] parts)
+        private static Ranking GetRankingsData(string data)
         {
-            if (parts == null) { return null; }
-            if (parts.Length != 5) { return null; }
-            if (parts[0] == "Long name") { return null; }
 
-            return new Team()
+            var namePart = GetBetween(data, "<a href=", "</a>");
+
+            var longName = GetBetween(namePart, "/", ".html");
+
+            var i1 = namePart.IndexOf(">");
+            var shortName = namePart.Substring(i1 + 1);
+
+
+            var i2 = data.IndexOf("-");
+            var rankingPart = data.Substring(i2 + 11);
+
+
+            _ = decimal.TryParse(rankingPart.AsSpan(0, 6), out decimal currentRanking);//81
+            _ = decimal.TryParse(rankingPart.AsSpan(11, 6), out decimal scheduleRanking);//92
+            _ = decimal.TryParse(rankingPart.AsSpan(24, 6), out decimal offensiveRanking);//105
+            _ = decimal.TryParse(rankingPart.AsSpan(37, 6), out decimal defensiveRanking);//118
+
+            
+            return new Ranking
             {
-                LongName = parts[0],
-                ShortName = parts[1],
-                Class = parts[2],
-                District = byte.Parse(parts[3])
+                LongName = longName,
+                ShortName = shortName,
+                Rank = currentRanking,
+                ScheduleAverage = scheduleRanking,
+                OffensiveAverage = offensiveRanking,
+                DefensiveAverage = defensiveRanking
             };
         }
-
+        
+        private static Team ProcessTeam(string[] parts)
+        {
+            if (parts == null || parts.Length != 5 || parts[0] == "Long name") 
+            { return null; }
+            else
+            {
+                return new Team()
+                {
+                    LongName = parts[0],
+                    ShortName = parts[1],
+                    Class = parts[2],
+                    District = byte.Parse(parts[3])
+                };
+            }
+            
+        }
 
         private static Schedule ProcessSchedule(string[] parts)
         {
@@ -206,7 +205,6 @@ namespace DataAccess.BcMoore
             };
 
         }
-
 
         private static Score ProcessScore(string[] parts)
         {
