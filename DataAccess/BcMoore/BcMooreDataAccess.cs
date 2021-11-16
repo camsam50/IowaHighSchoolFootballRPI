@@ -27,7 +27,7 @@ namespace DataAccess.BcMoore
             var classes = new List<string>() { "4A", "3A-A", "8" };
 
             using HttpClient client = GetHttpClient();
-            
+
             foreach (var c in classes)
             {
 
@@ -63,7 +63,7 @@ namespace DataAccess.BcMoore
 
 
 
-        
+
         private static string getBetween(string strSource, string strStart, string strEnd)
         {
             int Start, End;
@@ -101,9 +101,9 @@ namespace DataAccess.BcMoore
         {
 
             var namePart = getBetween(data, "<a href=", "</a>");
-            
+
             var longName = getBetween(namePart, "/", ".html");
-            
+
             var i1 = namePart.IndexOf(">");
             var shortName = namePart.Substring(i1 + 1);
 
@@ -111,7 +111,7 @@ namespace DataAccess.BcMoore
             var i2 = data.IndexOf("-");
             var rankingPart = data.Substring(i2 + 11);
 
-            
+
             decimal.TryParse(rankingPart.Substring(0, 6), out decimal currentRanking);//81
             decimal.TryParse(rankingPart.Substring(11, 6), out decimal scheduleRanking);//92
             decimal.TryParse(rankingPart.Substring(24, 6), out decimal offensiveRanking);//105
@@ -226,6 +226,6 @@ namespace DataAccess.BcMoore
             };
         }
 
-        
+
     }
 }
