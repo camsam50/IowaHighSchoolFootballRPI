@@ -7,3 +7,8 @@
 3. Logic
    * Sub item 1
    * Sub item 3
+
+
+
+
+[![build and test](https://github.com/camsam50/IowaHighSchoolFootballRPI/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/camsam50/IowaHighSchoolFootballRPI/actions/workflows/build-and-test.yml)
