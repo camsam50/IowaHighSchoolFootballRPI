@@ -21,7 +21,7 @@ jobs:
         password: ${ secrets.AZ_SP_CLIENT_SECRET }
 
     - name: Build the Docker image
-      run: docker build . -t ${ env.REGISTRY_NAME }.azurecr.io/${ env.APP_NAME }:${ github.sha }
+      run: docker build ./MinimalAPI -t ${ env.REGISTRY_NAME }.azurecr.io/minimalapi:${ github.sha }
 
     - name: Push Image to Docker
-      run: docker push ${ env.REGISTRY_NAME }.azurecr.io/${ env.APP_NAME }:${ github.sha }
+      run: docker push ${ env.REGISTRY_NAME }.azurecr.io/minimalapi:${ github.sha }
