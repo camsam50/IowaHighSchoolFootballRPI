@@ -8,15 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 var variable = builder.Configuration.GetValue<string>("Some_App_Value");
+var newvar = builder.Configuration.GetValue<string>("secret1");
 
-
+var message = variable + " " + newvar;
 
 var app = builder.Build();
 
 
 if(variable != null)
 {
-    app.MapGet("/", () => variable);
+    app.MapGet("/", () => message);
 }
 else
 {
