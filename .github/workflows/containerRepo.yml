@@ -17,8 +17,8 @@ jobs:
       uses: azure/docker-login@v1
       with:
         login-server: iowahighschoolfootballrpi.azurecr.io
-        username: ${ secrets.AZ_SP_CLIENT_ID }
-        password: ${ secrets.AZ_SP_CLIENT_SECRET }
+        username: ${{ secrets.AZ_SP_CLIENT_ID }}
+        password: ${{ secrets.AZ_SP_CLIENT_SECRET }}
 
     - name: Build the Docker image
       run: docker build ./MinimalAPI -t iowahighschoolfootballrpi.azurecr.io/minimalapi:${{ github.sha }}
