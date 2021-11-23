@@ -5,12 +5,21 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+#FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+#WORKDIR /src
+#COPY ["/MinimalAPI.csproj", "MinimalAPI/"]
+#RUN dotnet restore "/MinimalAPI.csproj"
+#COPY . .
+#WORKDIR "/src/MinimalAPI"
+#RUN dotnet build "MinimalAPI.csproj" -c Release -o /app/build
+
+
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["/MinimalAPI.csproj", "MinimalAPI/"]
-RUN dotnet restore "/MinimalAPI.csproj"
+COPY ["/MinimalAPI.csproj", ""]
+RUN dotnet restore "MinimalAPI.csproj"
 COPY . .
-WORKDIR "/src/MinimalAPI"
+WORKDIR "/src/"
 RUN dotnet build "MinimalAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
