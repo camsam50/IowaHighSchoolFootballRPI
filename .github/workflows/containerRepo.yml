@@ -21,7 +21,7 @@ jobs:
         password: ${ secrets.AZ_SP_CLIENT_SECRET }
 
     - name: Build the Docker image
-      run: docker build ./ -t iowahighschoolfootballrpi.azurecr.io/minimalapi:${{ github.sha }}
+      run: docker build ./MinimalApi -t iowahighschoolfootballrpi.azurecr.io/minimalapi:${{ github.sha }}
 
     - name: Push Image to Docker
       run: docker push iowahighschoolfootballrpi.azurecr.io/minimalapi:${{ github.sha }}
