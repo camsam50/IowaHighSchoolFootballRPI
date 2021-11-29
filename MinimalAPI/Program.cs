@@ -8,9 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 var variable = builder.Configuration.GetValue<string>("Some_App_Value");
-var newvar = builder.Configuration.GetValue<string>("secret1");
+var localvar = builder.Configuration.GetValue<string>("secret10");
+var secretvar = builder.Configuration.GetValue<string>("secret1");
 
-var message = variable + " " + newvar;
+var message = variable + " " + localvar + " " + secretvar;
 
 var app = builder.Build();
 
@@ -21,7 +22,7 @@ if(variable != null)
 }
 else
 {
-    app.MapGet("/", () => "Hello World!");
+    app.MapGet("/", () => "HELLO WORLD (version 2)!");
 }
 
 
