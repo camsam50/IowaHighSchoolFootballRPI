@@ -1,3 +1,7 @@
+
+using Azure.Identity;
+using Microsoft.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 //// Add services to the container.
@@ -7,11 +11,25 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 
+
+
+//var uri = "https://iahsfbrpivault.vault.azure.net/";
+//builder.Configuration.AddAzureKeyVault(
+//        new Uri(uri),
+//        new DefaultAzureCredential()
+//    );
+
+
+
+
 var variable = builder.Configuration.GetValue<string>("Some_App_Value");
 var localvar = builder.Configuration.GetValue<string>("secret10");
 var secretvar = builder.Configuration.GetValue<string>("secret1");
 
-var message = variable + " " + localvar + " " + secretvar;
+var vaultSecret = builder.Configuration["secret1"];
+
+
+var message = variable + " " + localvar + " " + secretvar + " " + vaultSecret;
 
 var app = builder.Build();
 
