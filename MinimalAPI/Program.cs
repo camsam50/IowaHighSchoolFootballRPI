@@ -24,13 +24,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 
-var keyVaultEndpoint = "https://iahsfbrpivault.vault.azure.net";
-if (!string.IsNullOrEmpty(keyVaultEndpoint))
-{
-    var azureServiceTokenProvider = new AzureServiceTokenProvider();
-    var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
-    builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, keyVaultClient, new DefaultKeyVaultSecretManager());
-}
+//var keyVaultEndpoint = "https://iahsfbrpivault.vault.azure.net";
+//if (!string.IsNullOrEmpty(keyVaultEndpoint))
+//{
+//    var azureServiceTokenProvider = new AzureServiceTokenProvider();
+//    var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
+//    builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, keyVaultClient, new DefaultKeyVaultSecretManager());
+//}
 
 
 
