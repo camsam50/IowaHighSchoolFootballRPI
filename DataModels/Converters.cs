@@ -11,38 +11,38 @@ namespace Models
 
 
 
-        public static Data.Cosmos.Team CreateTeam(Data.BcMoore.Team team, Data.BcMoore.Ranking ranking)
-        {
+        //public static Data.Cosmos.Team CreateTeam(Data.BcMoore.Team team, Data.BcMoore.Ranking ranking)
+        //{
 
-            //TODO: logic that the two objects are legit and match each other
+        //    //TODO: logic that the two objects are legit and match each other
 
-            return new Data.Cosmos.Team
-            {
-                LongName = team.LongName,
-                ShortName = team.ShortName,
-                Class = team.Classification,
-                District = team.District,
-                Rank = ranking.Rank,
-                ScheduleAverage = ranking.ScheduleAverage,
-                OffensiveAverage = ranking.OffensiveAverage,
-                DefensiveAverage = ranking.DefensiveAverage
-            };
-        }
-
-
+        //    return new Data.Cosmos.Team
+        //    {
+        //        LongName = team.LongName,
+        //        ShortName = team.ShortName,
+        //        Class = team.Classification,
+        //        District = team.District,
+        //        Rank = ranking.Rank,
+        //        ScheduleAverage = ranking.ScheduleAverage,
+        //        OffensiveAverage = ranking.OffensiveAverage,
+        //        DefensiveAverage = ranking.DefensiveAverage
+        //    };
+        //}
 
 
 
-        public static Data.Cosmos.Team ConvertToCosmos(this Data.BcMoore.Team team)
-        {
-            return new Data.Cosmos.Team
-            {
-                LongName = team.LongName,
-                ShortName = team.ShortName,
-                Class = team.Classification,
-                District = team.District
-            };
-        }
+
+
+        //public static Data.Cosmos.Team ConvertToCosmos(this Data.BcMoore.Team team)
+        //{
+        //    return new Data.Cosmos.Team
+        //    {
+        //        LongName = team.LongName,
+        //        ShortName = team.ShortName,
+        //        Class = team.Classification,
+        //        District = team.District
+        //    };
+        //}
 
 
 
