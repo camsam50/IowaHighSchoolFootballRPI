@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic.FileIO;
 
 namespace DataAccess.BcMoore;
 
@@ -20,6 +21,27 @@ public class BcMooreDataAccess : ISourceDataAccess
     private const string CURRENT_YEAR = "2021";
     private static Uri uri = new($"http://ia.bcmoorerankings.com/fb/{CURRENT_YEAR}/latest/");
 
+    
+
+    public void tester()
+    {
+
+        string path = Directory.GetCurrentDirectory();
+        string filePath = "";
+        var parser = new TextFieldParser(filePath);
+        parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+        parser.SetDelimiters(new string[] { "," });
+
+        while (!parser.EndOfData)
+        {
+            string[] row = parser.ReadFields();
+            /* do something */
+        }
+    }
+    
+    
+    
+    
     public async Task<IEnumerable<Team>> GetTeams()
     {
         return await GetCsvData<Team>("team", ProcessTeam);
