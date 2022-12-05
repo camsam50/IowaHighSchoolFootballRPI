@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{863189D6-308A-4447-BDC9-35A98217F2F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website\Website.csproj", "{4FD67E31-68F8-4FC7-BBFD-F61FF6795775}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Website", "Website\Website.csproj", "{4FD67E31-68F8-4FC7-BBFD-F61FF6795775}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
