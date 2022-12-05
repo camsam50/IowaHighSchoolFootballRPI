@@ -5,20 +5,13 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic.FileIO;
+using Models.Interfaces;
 
 namespace DataAccess.BcMoore;
 
-public interface ISourceDataAccess
-{
-    Task<IEnumerable<Team>> GetTeams();
-    //Task<IEnumerable<Ranking>> GetRankings();
-    //Task<IEnumerable<Schedule>> GetSchedules();
-    //Task<IEnumerable<Score>> GetScores();
-}
-
 public class BcMooreDataAccess : ISourceDataAccess
 {
-    private const string CURRENT_YEAR = "2021";
+    private const string CURRENT_YEAR = "2022";
     private static Uri uri = new($"http://ia.bcmoorerankings.com/fb/{CURRENT_YEAR}/latest/");
 
     
@@ -26,17 +19,27 @@ public class BcMooreDataAccess : ISourceDataAccess
     public void tester()
     {
 
-        string path = Directory.GetCurrentDirectory();
-        string filePath = "";
+        string filePath = "C:\\data\\source\\GitHub\\IowaHighSchoolFootballRPI\\DataAccess\\LocalDataSource\\2022\\team.csv"; //C:\data\source\GitHub\IowaHighSchoolFootballRPI\DataAccess\LocalDataSource\2022
         var parser = new TextFieldParser(filePath);
-        parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+        parser.TextFieldType = FieldType.Delimited;
         parser.SetDelimiters(new string[] { "," });
+
+        List<string[]> allParsedData = new();
 
         while (!parser.EndOfData)
         {
             string[] row = parser.ReadFields();
             /* do something */
+            //Team team = ProcessTeam(row);
+            if(row[0] != "Long name")
+            {
+                allParsedData.Add(row);
+            }
         }
+
+
+
+
     }
     
     
