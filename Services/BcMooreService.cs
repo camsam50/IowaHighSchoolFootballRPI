@@ -21,6 +21,8 @@ public class BcMooreService : ISourceDataService
         return await _dataAccess.GetTeams();
     }
 
+    public string GetTestMessage() => _dataAccess.GetTestMessage();
+
     //public async Task<IEnumerable<Ranking>> GetRankings()
     //{
     //    return await _dataAccess.GetRankings();

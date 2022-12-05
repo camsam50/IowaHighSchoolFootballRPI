@@ -14,6 +14,10 @@ public class BcMooreDataAccess : ISourceDataAccess
     private const string CURRENT_YEAR = "2022";
     private static Uri uri = new($"http://ia.bcmoorerankings.com/fb/{CURRENT_YEAR}/latest/");
 
+
+    public string GetTestMessage() => $"Hello World! It is {DateTime.Now}";
+
+
     public async Task<IEnumerable<Team>> GetTeams()
     {
         return GetLocalCsvData<Team>("team", ProcessTeam);
@@ -212,6 +216,8 @@ public class BcMooreDataAccess : ISourceDataAccess
         }
 
     }
+
+    
 
 
 
