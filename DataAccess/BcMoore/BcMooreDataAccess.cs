@@ -16,38 +16,41 @@ public class BcMooreDataAccess : ISourceDataAccess
 
     
 
-    public void tester()
-    {
+    //public void tester()
+    //{
 
-        string filePath = "C:\\data\\source\\GitHub\\IowaHighSchoolFootballRPI\\DataAccess\\LocalDataSource\\2022\\team.csv"; //C:\data\source\GitHub\IowaHighSchoolFootballRPI\DataAccess\LocalDataSource\2022
-        var parser = new TextFieldParser(filePath);
-        parser.TextFieldType = FieldType.Delimited;
-        parser.SetDelimiters(new string[] { "," });
+    //    string filePath = "C:\\data\\source\\GitHub\\IowaHighSchoolFootballRPI\\DataAccess\\LocalDataSource\\2022\\team.csv";
+    //    TextFieldParser parser = new(filePath)
+    //    {
+    //        TextFieldType = FieldType.Delimited
+    //    };
+    //    parser.SetDelimiters(new string[] { "," });
 
-        List<string[]> allParsedData = new();
+    //    List<string[]> allParsedData = new();
 
-        while (!parser.EndOfData)
-        {
-            string[] row = parser.ReadFields();
-            /* do something */
-            //Team team = ProcessTeam(row);
-            if(row[0] != "Long name")
-            {
-                allParsedData.Add(row);
-            }
-        }
-
-
-
-
-    }
+    //    while (!parser.EndOfData)
+    //    {
+    //        string[] row = parser.ReadFields();
+    //        if(row[0] != "Long name")
+    //        {
+    //            allParsedData.Add(row);
+    //        }
+    //    }
+    //}
     
     
     
     
     public async Task<IEnumerable<Team>> GetTeams()
     {
-        return await GetCsvData<Team>("team", ProcessTeam);
+
+
+        return GetLocalCsvData<Team>("team", ProcessTeam);
+        
+        
+        //return await GetCsvData<Team>("team", ProcessTeam);
+
+
     }
 
     //public async Task<IEnumerable<Schedule>> GetSchedules()
@@ -87,7 +90,27 @@ public class BcMooreDataAccess : ISourceDataAccess
     //}
 
 
+    private static IEnumerable<T> GetLocalCsvData<T>(string fileName, Func<string[], T> processor)
+    {
+        List<T> returnValues = new();
+        string filePath = $"C:\\data\\source\\GitHub\\IowaHighSchoolFootballRPI\\DataAccess\\LocalDataSource\\2022\\{fileName}.csv";
+        TextFieldParser parser = new(filePath)
+        {
+            TextFieldType = FieldType.Delimited
+        };
+        parser.SetDelimiters(new string[] { "," });
 
+        while (!parser.EndOfData)
+        {
+            string[] row = parser.ReadFields();
+            var obj = processor(row);
+            if (obj is not null)
+            {
+                returnValues.Add(obj);
+            }
+        }
+        return returnValues;
+    }
 
     private static async Task<IEnumerable<T>> GetCsvData<T>(string fileName, Func<string[], T> processor)
     {

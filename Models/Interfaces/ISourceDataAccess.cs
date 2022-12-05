@@ -6,9 +6,6 @@ namespace Models.Interfaces;
 public interface ISourceDataAccess
 {
 
-    void tester();
-
-
     Task<IEnumerable<Team>> GetTeams();
     //Task<IEnumerable<Ranking>> GetRankings();
     //Task<IEnumerable<Schedule>> GetSchedules();

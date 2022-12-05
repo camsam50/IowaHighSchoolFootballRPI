@@ -1,6 +1,7 @@
 ﻿using DataAccess.BcMoore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models.Interfaces;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BusinessLogicTests;
@@ -19,18 +20,17 @@ public class DataAccessTests
     
     
     [TestMethod()]
-    public async Task DummyTestAsync()
+    public async Task GetTeamsTestAsync()
     {
 
         //ARRANGE
-        var x = 1;
+        int expectedTeamCount = 332;
 
         //ACT
-        var variable = x;
-        SourceDataAcess.tester();
+        var teams = await SourceDataAcess.GetTeams();
 
         //ASSSERT
-        Assert.IsTrue(variable == x); //Was able to retrieve scores
+        Assert.IsTrue(teams.Count() == expectedTeamCount); //Was able to retrieve scores
     }
 
 }
