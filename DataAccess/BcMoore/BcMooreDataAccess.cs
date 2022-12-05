@@ -14,43 +14,10 @@ public class BcMooreDataAccess : ISourceDataAccess
     private const string CURRENT_YEAR = "2022";
     private static Uri uri = new($"http://ia.bcmoorerankings.com/fb/{CURRENT_YEAR}/latest/");
 
-    
-
-    //public void tester()
-    //{
-
-    //    string filePath = "C:\\data\\source\\GitHub\\IowaHighSchoolFootballRPI\\DataAccess\\LocalDataSource\\2022\\team.csv";
-    //    TextFieldParser parser = new(filePath)
-    //    {
-    //        TextFieldType = FieldType.Delimited
-    //    };
-    //    parser.SetDelimiters(new string[] { "," });
-
-    //    List<string[]> allParsedData = new();
-
-    //    while (!parser.EndOfData)
-    //    {
-    //        string[] row = parser.ReadFields();
-    //        if(row[0] != "Long name")
-    //        {
-    //            allParsedData.Add(row);
-    //        }
-    //    }
-    //}
-    
-    
-    
-    
     public async Task<IEnumerable<Team>> GetTeams()
     {
-
-
         return GetLocalCsvData<Team>("team", ProcessTeam);
-        
-        
         //return await GetCsvData<Team>("team", ProcessTeam);
-
-
     }
 
     //public async Task<IEnumerable<Schedule>> GetSchedules()
@@ -103,7 +70,7 @@ public class BcMooreDataAccess : ISourceDataAccess
         while (!parser.EndOfData)
         {
             string[] row = parser.ReadFields();
-            var obj = processor(row);
+            T obj = processor(row);
             if (obj is not null)
             {
                 returnValues.Add(obj);

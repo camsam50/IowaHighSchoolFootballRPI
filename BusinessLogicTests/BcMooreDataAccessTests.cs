@@ -1,20 +1,21 @@
 ﻿using DataAccess.BcMoore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Models.Data.BcMoore;
 using Models.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace BusinessLogicTests;
 
 [TestClass()]
-public class DataAccessTests
+public class BcMooreDataAccessTests
 {
 
     private ISourceDataAccess SourceDataAcess { get; }
 
-    public DataAccessTests() 
+    public BcMooreDataAccessTests() 
     {
-        //do something
         SourceDataAcess = new BcMooreDataAccess();
     }
     
@@ -27,10 +28,10 @@ public class DataAccessTests
         int expectedTeamCount = 332;
 
         //ACT
-        var teams = await SourceDataAcess.GetTeams();
+        IEnumerable<Team> teams = await SourceDataAcess.GetTeams();
 
         //ASSSERT
-        Assert.IsTrue(teams.Count() == expectedTeamCount); //Was able to retrieve scores
+        Assert.IsTrue(teams.Count() == expectedTeamCount);
     }
 
 }

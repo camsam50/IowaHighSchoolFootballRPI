@@ -1,57 +1,41 @@
-﻿using DataAccess.BcMoore;
-using Models.Data.BcMoore;
+﻿using Models.Data.BcMoore;
+using Models.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Models.Interfaces;
 
 namespace Services;
 
+public class BcMooreService : ISourceDataService
+{
 
-//public interface ISourceDataService
-//{
-//    Task<IEnumerable<Team>> GetTeams();
-//    //Task<IEnumerable<Schedule>> GetSchedules();
-//    //Task<IEnumerable<Score>> GetScores();
-//    //Task<IEnumerable<Ranking>> GetRankings();
+    private readonly ISourceDataAccess _dataAccess;
 
-
-//    //TODO: UpdateAll, UpdateTeams (get teams/rankings from bcmoore and save combine to cosmos), UpdateGame (get score/schedule from bcmoore and save to cosomos as game) 
-
-//}
+    public BcMooreService(ISourceDataAccess dataAccess)
+    {
+        _dataAccess = dataAccess;
+    }
 
 
+    public async Task<IEnumerable<Team>> GetTeams()
+    {
+        return await _dataAccess.GetTeams();
+    }
 
-//public class BcMooreService : ISourceDataService
-//{
+    //public async Task<IEnumerable<Ranking>> GetRankings()
+    //{
+    //    return await _dataAccess.GetRankings();
+    //}
 
-//    private readonly ISourceDataAccess _dataAccess;
+    //public async Task<IEnumerable<Schedule>> GetSchedules()
+    //{
+    //    return await _dataAccess.GetSchedules();
+    //}
 
-//    public BcMooreService(ISourceDataAccess dataAccess)
-//    {
-//        _dataAccess = dataAccess;
-//    }
-
-        
-//    public async Task<IEnumerable<Team>> GetTeams()
-//    {
-//        return await _dataAccess.GetTeams();
-//    }
-
-//    //public async Task<IEnumerable<Ranking>> GetRankings()
-//    //{
-//    //    return await _dataAccess.GetRankings();
-//    //}
-
-//    //public async Task<IEnumerable<Schedule>> GetSchedules()
-//    //{
-//    //    return await _dataAccess.GetSchedules();
-//    //}
-
-//    //public async Task<IEnumerable<Score>> GetScores()
-//    //{
-//    //    return await _dataAccess.GetScores();
-//    //}
-//}
+    //public async Task<IEnumerable<Score>> GetScores()
+    //{
+    //    return await _dataAccess.GetScores();
+    //}
+}
 
 
 
